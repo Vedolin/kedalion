@@ -1,0 +1,16 @@
+{
+  "name": "device_sensors",
+  "version": "1.0.0",
+  "description": "Server side application to collect device sensors data through http requests.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "device",
+    "sensors",
+    "data"
+  ],
+  "author": "henrique",
+  "license": "ISC"
+}
