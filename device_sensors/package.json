@@ -12,5 +12,9 @@
     "data"
   ],
   "author": "henrique",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "rethinkdb": "^2.3.0"
+  }
 }
