@@ -1,44 +1,42 @@
-var express = require('express');
-var r = require('rethinkdb');
+var express = require("express"),
+        r = require("rethinkdb"),
+        bodyParser = require("body-parser");
 
 var app = express();
+var port = process.env.PORT || 3000;
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
-     res.send('Hello Device!');
+     res.send({"msg": "Hello Device!"});
 });
 
-app.get('/device_sensores_package', function (req, res) {
+app.post("/device_sensors_package", function (req, res) {
+    var dataPackage = req.body;
+
     r.connect({
-        host: 'localhost',
+        host: "localhost",
         port: 28015,
-        db: 'device_sensores_db',
-        authKey: ''
+        db: "device_sensores_db",
+        authKey: ""
     })
     .then(function(conn) {
-        return r.db("device_sensores_db")
-                    .table("device_sensores_package")
-                    .insert({
-                        acceleration: {
-                            x: 1.11000,
-                            y: 1.221111,
-                            z: 1.1111221
-                        }, location: {
-                            point: r.point(-122.423246, 37.779388),
-                            timestamp: '14/04/2016'
-                        }
-                    })
+        return r.db("device_sensors_db")
+                    .table("device_sensors_package")
+                    .insert(dataPackage)
                     .run(conn)
                     .finally(function() {
                         conn.close();
                     });
     }).then(function(output) {
         console.log(output);
+        res.status(201).send({"result": "Success"});
     }).error(function(err) {
         console.log("Failed: ", err);
     });
-     res.send('OK!');
 });
 
-app.listen(3000, function () {
+app.listen(port, function () {
     console.log('Were are live, listening on port 3000!');
 });
